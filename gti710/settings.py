@@ -75,8 +75,12 @@ WSGI_APPLICATION = 'gti710.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'git710_20163',
+        'USER': 'pg_gti710',
+        'PASSWORD': 'Gti710Pass05',
+        'HOST': '', #the host is gti710-20163-05.logti.etsmtl.ca
+        'PORT': '', #default port
     }
 }
 
