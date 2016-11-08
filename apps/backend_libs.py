@@ -1,6 +1,9 @@
 from apps import models
 
-def getCategories():
+
+######### division pour application web ##########
+
+def getCategories(): #GET categories
     queryset = models.ProductCategory.objects.all()
     categorySet = {}
     for cat in queryset:
@@ -8,7 +11,7 @@ def getCategories():
 
     return categorySet
 
-def getProducts():
+def getProducts(): #GET produits
     prdPrd = models.ProductTemplate.objects.all()
     productSet = {}
     for pr in prdPrd:
@@ -25,5 +28,31 @@ def getProducts():
 
     return productSet
 
-def getCategoryToProductAssociation():
- return "";
+def getCategoryToProductAssociation(): #GET related products (amazon)
+    return ""
+
+def postCommande(): #POST commande
+    return ""
+
+def postRating(): #POST rating
+    return ""
+
+
+######### division pour application mobile ##########
+
+def getTotalVente():
+    return ""
+
+def getVentesParProduit():
+    return ""
+
+def getVenteParDate():
+    return ""
+
+def getInventaire():
+    return ""
+
+
+
+
+
