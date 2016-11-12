@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from apps import backend_libs
+from . import backend_libs
 from django.http import JsonResponse
 
 
@@ -11,3 +11,12 @@ def dbReq (request):
 
 def prd (request):
     return JsonResponse(backend_libs.getProducts())
+
+def venteprd (request):
+    return JsonResponse(backend_libs.getVentesParProduit())
+
+def ventedate (request):
+    return JsonResponse(backend_libs.getVenteParDate())
+
+def ventetot (request):
+    return JsonResponse(backend_libs.getTotalVente())

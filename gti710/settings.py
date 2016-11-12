@@ -25,7 +25,7 @@ SECRET_KEY = '26w+(3m^1$=+dovzx(l+)4jovxcr((25huc#24_ky1_)jx@0x%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
