@@ -53,6 +53,36 @@ def getTotalVente():
 
     venteTot['total'] = vente
 
+    ################################################
+
+    venteTot['revenue'] = 0
+    venteTot['profit'] = 0
+
+    queryset = models.SaleOrderLine.objects.all()
+    for each in queryset:
+        vente = {}
+        # print(each.product_id)
+        # print(each.qty_invoiced)
+        vente['quantity'] = each.qty_invoiced
+        vente['product_id'] = each.product_id
+
+        queryset3 = models.ProductTemplate.objects.all()
+        for each3 in queryset3:
+            # print(each3.id)
+            # print(each3.list_price)
+            if each3.id == vente['product_id']:
+                vente['revenue'] = each.qty_invoiced * each3.list_price
+                venteTot['revenue'] += vente['revenue']
+
+        queryset3bis = models.IrProperty.objects.all()
+        for each3bis in queryset3bis:
+            test = str(each3bis.res_id)
+            testbis = test.split(",", 1)[-1]
+            # print(each3bis.value_float)
+            if str(vente['product_id']) == testbis:
+                vente['profit'] = float(vente['revenue']) - each3bis.value_float
+                venteTot['profit'] += vente['profit']
+
     return venteTot
 
 def getVentesParProduit():
