@@ -40,6 +40,9 @@ def postRating(): #POST rating
 ######### division pour application mobile ##########
 
 def getTotalVente():
+
+    # TODO : mettre benefice et CA
+
     venteTot = {}
     vente = 0
 
@@ -96,6 +99,8 @@ def getVentesParProduit():
 
 def getVenteParDate():
 
+    # TODO : corriger cette API
+
     venteSet = {}
 
     queryset = models.SaleOrderLine.objects.all()
@@ -115,6 +120,9 @@ def getVenteParDate():
     return venteSet
 
 def getInventaire():
+
+    # TODO : implementer API
+
     return ""
 
 
