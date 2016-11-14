@@ -6958,7 +6958,8 @@ class ProductPutaway(models.Model):
 
 
 class ProductRating(models.Model):
-    product = models.ForeignKey('ProductProduct', models.DO_NOTHING, related_name="%(app_label)s_%(class)s_product")
+    product_template = models.ForeignKey('ProductTemplate', models.DO_NOTHING, related_name="%(app_label)s_%(class)s_product_template")
+    #product = models.ForeignKey('ProductProduct', models.DO_NOTHING, related_name="%(app_label)s_%(class)s_product")
     rating = models.IntegerField()
 
     class Meta:
