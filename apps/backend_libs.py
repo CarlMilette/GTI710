@@ -40,6 +40,7 @@ def postRating(): #POST rating
 ######### division pour application mobile ##########
 
 def getTotalVente():
+
     venteTot = {}
     vente = 0
 
@@ -49,6 +50,36 @@ def getTotalVente():
         vente += each.qty_invoiced
 
     venteTot['total'] = vente
+
+    ################################################
+
+    venteTot['revenue'] = 0
+    venteTot['profit'] = 0
+
+    queryset = models.SaleOrderLine.objects.all()
+    for each in queryset:
+        vente = {}
+        # print(each.product_id)
+        # print(each.qty_invoiced)
+        vente['quantity'] = each.qty_invoiced
+        vente['product_id'] = each.product_id
+
+        queryset3 = models.ProductTemplate.objects.all()
+        for each3 in queryset3:
+            # print(each3.id)
+            # print(each3.list_price)
+            if each3.id == vente['product_id']:
+                vente['revenue'] = each.qty_invoiced * each3.list_price
+                venteTot['revenue'] += vente['revenue']
+
+        queryset3bis = models.IrProperty.objects.all()
+        for each3bis in queryset3bis:
+            test = str(each3bis.res_id)
+            testbis = test.split(",", 1)[-1]
+            # print(each3bis.value_float)
+            if str(vente['product_id']) == testbis:
+                vente['profit'] = float(vente['revenue']) - each3bis.value_float
+                venteTot['profit'] += vente['profit']
 
     return venteTot
 
@@ -96,6 +127,8 @@ def getVentesParProduit():
 
 def getVenteParDate():
 
+    # TODO : corriger cette API
+
     venteSet = {}
 
     queryset = models.SaleOrderLine.objects.all()
@@ -107,14 +140,76 @@ def getVenteParDate():
 
         venteSet[datebis] = vente
 
+        vente = {}
+        vente['revenue'] = 0
+        vente['profit'] = 0
 
-    print(venteSet.__len__())
-    for each2 in venteSet.values():
-        print(each2['date'])
+    for eachf in venteSet:
+        queryset = models.SaleOrderLine.objects.all()
+
+        for each1 in queryset:
+            # print(each.product_id)
+            # print(each.qty_invoiced)
+
+            queryset3 = models.ProductTemplate.objects.all()
+            for each3 in queryset3:
+                # print(each3.id)
+                # print(each3.list_price)
+                if each3.id == each1.product_id:
+                    vente['revenue'] += each1.qty_invoiced * each3.list_price
+
+        ##
+
+        queryset = models.SaleOrderLine.objects.all()
+        for each in queryset:
+            ventebis = {}
+            # print(each.product_id)
+            # print(each.qty_invoiced)
+            ventebis['quantity'] = each.qty_invoiced
+            ventebis['product_id'] = each.product_id
+
+            queryset2 = models.ProductProduct.objects.all()
+            for each2 in queryset2:
+                # print(each2.product_tmpl_id)
+                # print(each2.name_template)
+                if each2.product_tmpl_id == ventebis['product_id']:
+                    ventebis['name'] = each2.name_template
+
+            queryset33 = models.ProductTemplate.objects.all()
+            for each33 in queryset33:
+                # print(each3.id)
+                # print(each3.list_price)
+                if each33.id == ventebis['product_id']:
+                    ventebis['revenue'] = each.qty_invoiced * each33.list_price
+
+            queryset3bis = models.IrProperty.objects.all()
+            for each3bis in queryset3bis:
+                test = str(each3bis.res_id)
+                testbis = test.split(",", 1)[-1]
+                # print(each3bis.value_float)
+                if str(ventebis['product_id']) == testbis:
+                    vente['profit'] += float(ventebis['revenue']) - each3bis.value_float
+
+        ##
+
+            datecreate = str(each1.create_date)
+            datecreatebbis = datecreate.split(" ", 1)[0]
+            print (venteSet[eachf])
+            if eachf == datecreatebbis:
+                venteSet[eachf] = vente
+
+
+
+    #print(venteSet.__len__())
+    #for each2 in venteSet.values():
+    #    print(each2['date'])
 
     return venteSet
 
 def getInventaire():
+
+    # TODO : implementer API
+
     return ""
 
 
