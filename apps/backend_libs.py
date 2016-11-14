@@ -81,6 +81,8 @@ def getTotalVente():
                 vente['profit'] = float(vente['revenue']) - each3bis.value_float
                 venteTot['profit'] += vente['profit']
 
+    venteTot['profit'] = str(round(venteTot['profit'],2))
+
     return venteTot
 
 def getVentesParProduit():
@@ -116,6 +118,8 @@ def getVentesParProduit():
             #print(each3bis.value_float)
             if str(vente['product_id']) == testbis:
                 vente['profit'] = float(vente['revenue']) - each3bis.value_float
+
+        vente['profit'] = str(round(vente['profit'], 2))
 
         venteSet[each.id] = vente
 
@@ -190,13 +194,16 @@ def getVenteParDate():
                 if str(ventebis['product_id']) == testbis:
                     vente['profit'] += float(ventebis['revenue']) - each3bis.value_float
 
-        ##
-
             datecreate = str(each1.create_date)
             datecreatebbis = datecreate.split(" ", 1)[0]
-            print (venteSet[eachf])
-            if eachf == datecreatebbis:
-                venteSet[eachf] = vente
+
+        vente['profit'] = str(round(vente['profit'], 2))
+
+        ##
+
+        print (venteSet[eachf])
+        if eachf == datecreatebbis:
+            venteSet[eachf] = vente
 
 
 
