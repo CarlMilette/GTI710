@@ -11,4 +11,6 @@ urlpatterns = [
     url(r'^ventetot', views.ventetot, name='ventetot'),
     url(r'^ratings', views.RatingList.as_view()),
     url(r'^cmd', views.CommandeList.as_view()),
+    url(r'^addRating', views.addRating, name='addRating'),
+    url(r'^postCommande', views.postCommande, name='postCommande'),
 ]

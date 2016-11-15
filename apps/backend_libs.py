@@ -1,5 +1,6 @@
 from . import models
-
+import datetime
+from decimal import *
 
 ######### division pour application web ##########
 
@@ -30,14 +31,49 @@ def getProducts(): #GET produits
 def getCategoryToProductAssociation(): #GET related products (amazon)
     return ""
 
-def postCommande(): #POST commande
+#La commande fonctionne considérant que nous n'avons pas plusieurs produit pour chaque template
+#donc product_id = product_template_id
+def postCommande(productid, quantity): #POST commande
+    nowDateTime = datetime.datetime.now()
+    product = models.ProductTemplate.objects.get(id=productid)
+    order_id = models.SaleOrderLine.objects.latest('order_id').order_id
+    res_uid = models.ResUsers.objects.earliest('id')
+    product_uom = models.ProductUom.objects.earliest('id')
 
+    sale_oi = models.SaleOrderLine()
+    sale_oi.create_date = nowDateTime
+    sale_oi.qty_to_invoice = 0
+    sale_oi.sequence = 10
+    sale_oi.price_unit = product.list_price
+    sale_oi.product_uom_qty = quantity
+    sale_oi.qty_invoiced = quantity
+    sale_oi.write_uid = res_uid
+    sale_oi.currency_id = 5
+    sale_oi.create_uid = res_uid
+    sale_oi.price_tax = sale_oi.price_unit*Decimal(0.05)
+    sale_oi.product_uom = product_uom
+    sale_oi.customer_lead = 7
+    sale_oi.company_id = 1
+    sale_oi.name = product.name
+    sale_oi.state = 'done'
+    sale_oi.order_id = order_id + 1
+    sale_oi.price_subtotal = product.list_price
+    sale_oi.discount = 0.0
+    sale_oi.write_date = nowDateTime
+    sale_oi.price_reduce = sale_oi.price_subtotal
+    sale_oi.qty_delivered = 0
+    sale_oi.price_total = sale_oi.price_reduce+sale_oi.price_tax
+    sale_oi.product_id = productid
+    sale_oi.salesman_id = 1
+
+    sale_oi.save()
 
 def postRating(productId, rating): #POST rating
-        ratings = models.ProductRating()
-        ratings.product_id = productId
-        ratings.rating = rating
-        ratings.save()
+    ratings = models.ProductRating()
+    ratings.product_template_id = productId
+    ratings.rating = rating
+    ratings.save()
+    return ""
 
 ######### division pour application mobile ##########
 

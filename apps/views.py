@@ -30,6 +30,14 @@ def ventedate (request):
 def ventetot (request):
     return JsonResponse(backend_libs.getTotalVente())
 
+def addRating(request):
+    backend_libs.postRating(4, 3)
+    return HttpResponse('RatingAdded')
+
+def postCommande(request):
+    backend_libs.postCommande(4, 1)
+    return HttpResponse('postCOmmande')
+
 
 class RatingList(APIView):
 
