@@ -146,28 +146,38 @@ def getVenteParDate():
 
         venteSet[datebis] = vente
 
-        vente = {}
-        vente['revenue'] = 0
-        vente['profit'] = 0
 
     for eachf in venteSet:
         queryset = models.SaleOrderLine.objects.all()
 
+        vente = {}
+
+        vente['revenue'] = 0
+        vente['profit'] = 0
+
         for each1 in queryset:
             # print(each.product_id)
             # print(each.qty_invoiced)
+
+            datecreate1 = str(each1.create_date)
+            datecreatebbis1 = datecreate1.split(" ", 1)[0]
 
             queryset3 = models.ProductTemplate.objects.all()
             for each3 in queryset3:
                 # print(each3.id)
                 # print(each3.list_price)
                 if each3.id == each1.product_id:
-                    vente['revenue'] += each1.qty_invoiced * each3.list_price
+                    if eachf == datecreatebbis1:
+                        vente['revenue'] += each1.qty_invoiced * each3.list_price
 
         ##
 
         queryset = models.SaleOrderLine.objects.all()
         for each in queryset:
+
+            datecreate2 = str(each.create_date)
+            datecreatebbis2 = datecreate2.split(" ", 1)[0]
+
             ventebis = {}
             # print(each.product_id)
             # print(each.qty_invoiced)
@@ -194,20 +204,19 @@ def getVenteParDate():
                 testbis = test.split(",", 1)[-1]
                 # print(each3bis.value_float)
                 if str(ventebis['product_id']) == testbis:
-                    vente['profit'] += float(ventebis['revenue']) - each3bis.value_float
+                    if eachf == datecreatebbis2:
+                        vente['profit'] += float(ventebis['revenue']) - each3bis.value_float
 
             datecreate = str(each1.create_date)
             datecreatebbis = datecreate.split(" ", 1)[0]
 
-        vente['profit'] = str(round(vente['profit'], 2))
+            #vente['profit'] = str(round(vente['profit'], 2))
 
         ##
 
-        print (venteSet[eachf])
-        if eachf == datecreatebbis:
+            ##print (venteSet[eachf])
+            ##if eachf == datecreatebbis:
             venteSet[eachf] = vente
-
-
 
     #print(venteSet.__len__())
     #for each2 in venteSet.values():
