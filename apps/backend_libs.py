@@ -31,11 +31,13 @@ def getCategoryToProductAssociation(): #GET related products (amazon)
     return ""
 
 def postCommande(): #POST commande
-    return ""
 
-def postRating(): #POST rating
-    return ""
 
+def postRating(productId, rating): #POST rating
+        ratings = models.ProductRating()
+        ratings.product_id = productId
+        ratings.rating = rating
+        ratings.save()
 
 ######### division pour application mobile ##########
 
