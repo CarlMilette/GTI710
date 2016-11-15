@@ -187,9 +187,11 @@ def getVenteParDate():
         queryset = models.SaleOrderLine.objects.all()
 
         vente = {}
+        vente2 = {}
 
         vente['revenue'] = 0
-        vente['profit'] = 0
+        vente2['profit'] = 0
+        vente['date'] = eachf
 
         for each1 in queryset:
             # print(each.product_id)
@@ -241,12 +243,12 @@ def getVenteParDate():
                 # print(each3bis.value_float)
                 if str(ventebis['product_id']) == testbis:
                     if eachf == datecreatebbis2:
-                        vente['profit'] += float(ventebis['revenue']) - each3bis.value_float
+                        vente2['profit'] += float(ventebis['revenue']) - each3bis.value_float
 
             datecreate = str(each1.create_date)
             datecreatebbis = datecreate.split(" ", 1)[0]
 
-            #vente['profit'] = str(round(vente['profit'], 2))
+            vente['profit'] = str(round(vente2['profit'], 2))
 
         ##
 
