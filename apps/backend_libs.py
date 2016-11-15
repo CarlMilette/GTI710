@@ -15,11 +15,29 @@ def getCategories(): #GET categories
 def getProducts(): #GET produits
     prdPrd = models.ProductTemplate.objects.all()
     productSet = {}
+
     for pr in prdPrd:
         product = {}
         product['name'] = pr.name
         product['categoryId'] = pr.categ_id
         product['listPrice'] = pr.list_price
+
+        ##############################################
+
+        stockbdd = models.StockMove.objects.all()
+        stock_tmp = {}
+
+        for stk in stockbdd:
+            if stk.origin is None:
+                stock_tmp[stk.product_id] = stk.product_uom_qty
+            if stk.origin is not None:
+                stock_tmp[stk.product_id] = stock_tmp[stk.product_id] - stk.product_qty
+
+        product['stock'] = stock_tmp[pr.id]
+
+        ##############################################
+
+
         productSet[pr.id] = product
 
     print(productSet.__len__())
@@ -31,7 +49,7 @@ def getProducts(): #GET produits
 def getCategoryToProductAssociation(): #GET related products (amazon)
     return ""
 
-#La commande fonctionne considérant que nous n'avons pas plusieurs produit pour chaque template
+#La commande fonctionne considerant que nous n'avons pas plusieurs produit pour chaque template
 #donc product_id = product_template_id
 def postCommande(productid, quantity): #POST commande
     nowDateTime = datetime.datetime.now()
